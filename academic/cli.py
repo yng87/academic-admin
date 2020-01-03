@@ -158,7 +158,16 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
     if 'booktitle' in entry:
         frontmatter.append(f'publication: "*{clean_bibtex_str(entry["booktitle"])}*"')
     elif 'journal' in entry:
-        frontmatter.append(f'publication: "*{clean_bibtex_str(entry["journal"])}*"')
+        #frontmatter.append(f'publication: "*{clean_bibtex_str(entry["journal"])}*"')
+        # Change to manage bib file from INSPIRE
+        journal_info = f'publication: "*{clean_bibtex_str(entry["journal"])}'
+        if 'volume' in entry:
+            journal_info += f' {entry["volume"]}'
+        if 'year' in entry:
+            journal_info += f' ({entry["year"]})'
+        if 'pages' in entry:
+            journal_info += f' {entry["pages"]}'
+        frontmatter.append(journal_info+'*"')
     elif 'publisher' in entry:
         frontmatter.append(f'publication: "*{clean_bibtex_str(entry["publisher"])}*"')
     else:
