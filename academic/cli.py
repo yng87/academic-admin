@@ -129,6 +129,8 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
     frontmatter.append(f'title: "{clean_bibtex_str(entry["title"])}"')
     if 'month' in entry:
         frontmatter.append(f"date: {entry['year']}-{month2number(entry['month'])}-01")
+    elif 'eprint' in entry:
+        frontmatter.append(f"date: 20{entry['eprint'][:2]}-{entry['eprint'][2:4]}-01")
     else:
         frontmatter.append(f"date: {entry['year']}-01-01")
 
@@ -170,6 +172,11 @@ def parse_bibtex_entry(entry, pub_dir='publication', featured=False, overwrite=F
 
     if 'doi' in entry:
         frontmatter.append(f'doi: "{entry["doi"]}"')
+
+    # Added by K.Y. (Jan. 3, 2020)
+    # in order to incorporate preprint number from inspire style bibtex
+    if 'eprint' in entry:
+        frontmatter.append('url_preprint: "https://arxiv.org/abs/{0}"'.format(entry["eprint"],entry["eprint"]))
 
     frontmatter.append('---\n\n')
 
